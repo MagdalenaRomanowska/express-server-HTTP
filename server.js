@@ -17,13 +17,14 @@ app.use(express.static(path.join(__dirname, '/public'))); //middleware express.s
 //foldery.
 app.use(express.urlencoded({ extended: false }));//Jeśli chcesz umożliwić obsługę formularzy x-www-form-urlencoded, 
 //dodaj middleware express.urlencoded.
+app.use(express.json()); //Jeśli dodatkowo chcesz odbierać dane w formacie JSON (mogą być wysyłane za pomocą form-data), to również express.json.
 
 app.post('/contact/send-message', (req, res) => {//Powyższy kod powinien zadziałać następująco: 
   //po wejściu pod link /contact/send-message (za pomocą metody POST), serwer powinien odczytać wysyłany przez 
   //użytkownika body i zwrócić go. 
-  const { author, sender, title, message } = req.body;
-  if(author && sender && title && message) {
-    res.render('contact', { isSent: true });
+  const { author, sender, title, message, design } = req.body;
+  if(author && sender && title && message && design) {
+    res.render('contact', { isSent: true, fileName: design });
   }
   else {
     res.render('contact', { isError: true });
